@@ -10,11 +10,11 @@ module.exports = function serveKeyFiles () {
   return ({ params }: Request, res: Response, next: NextFunction) => {
     const file = params.file
 
-    if (!file.includes('/')) {
+    if (!file.includes('..')) {
       res.sendFile(path.resolve('encryptionkeys/', file))
     } else {
       res.status(403)
-      next(new Error('File names cannot contain forward slashes!'))
+      next(new Error('File names cannot contain path traversal characters!'))
     }
   }
 }
