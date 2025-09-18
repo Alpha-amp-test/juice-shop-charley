@@ -33,7 +33,12 @@ export function waitForInputToHaveValue (inputSelector: string, value: string, o
       const propertyChain = options.replacement[1].split('.')
       let replacementValue = config
       for (const property of propertyChain) {
-        replacementValue = replacementValue[property]
+        if (replacementValue && property in replacementValue) {
+          replacementValue = replacementValue[property]
+        } else {
+          replacementValue = null;
+          break;
+        }
       }
       value = value.replace(options.replacement[0], replacementValue)
     }
